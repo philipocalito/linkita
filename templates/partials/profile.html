@@ -19,13 +19,41 @@
 {%- elif g_profile.avatar_alt %}
   {%- set profile_avatar_alt = g_profile.avatar_alt %}
 {%- endif %}
+{%- if g_profile.avatar_size is defined %}
+  {%- set avatar_size = g_profile.avatar_size %}
+{%- else %}
+  {%- set avatar_size = "8rem" %}
+{%- endif %}
+{%- if g_profile.avatar_border_width is defined %}
+  {%- set avatar_border_width = g_profile.avatar_border_width %}
+{%- else %}
+  {%- set avatar_border_width = "0px" %}
+{%- endif %}
+{%- if g_profile.avatar_border_radius is defined %}
+  {%- set avatar_border_radius = g_profile.avatar_border_radius %}
+{%- else %}
+  {%- set avatar_border_radius = "50%" %}
+{%- endif %}
+{%- if g_profile.avatar_shadow is defined %}
+  {%- set avatar_shadow = g_profile.avatar_shadow %}
+{%- else %}
+  {%- set avatar_shadow = "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)" %}
+{%- endif %}
+{%- if g_profile.avatar_padding is defined %}
+  {%- set avatar_padding = g_profile.avatar_padding %}
+{%- else %}
+  {%- set avatar_padding = "0.75rem" %}
+{%- endif %}
 <div class="mb-16 flex items-start">
   {%- if g_profile.avatar_url %}
+  <!-- DEBUG: avatar_shadow = {{ avatar_shadow }} -->
   <div
-    class="not-prose shrink-0 rounded-full border-[0.5px] border-black/10 bg-white/50 p-3 shadow-sm dark:bg-white/10">
+    class="not-prose shrink-0 bg-white/50 dark:bg-white/10"
+    style="border-radius: {{ avatar_border_radius }}; box-shadow: {{ avatar_shadow }} !important; padding: {{ avatar_padding }};">
     <img
-      class="my-0 aspect-square w-16 rounded-full bg-black/5! hover:animate-spin{%
+      class="my-0 aspect-square bg-black/5!{%
         if g_profile.avatar_invert %} dark:invert{% endif %}"
+      style="width: {{ avatar_size }}; height: {{ avatar_size }}; border: {{ avatar_border_width }} solid rgba(0, 0, 0, 0.1); border-radius: {{ avatar_border_radius }};"
       src="{{ m_url::rel(there=get_url(path=g_profile.avatar_url, cachebust=true), here=g_here, base=g_base) }}"{%
         if profile_avatar_alt is defined %} alt="{{ profile_avatar_alt | escape_xml | safe }}"{% endif %} />
   </div>
